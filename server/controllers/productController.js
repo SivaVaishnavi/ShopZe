@@ -1,0 +1,139 @@
+const Product = require('../models/Product');
+
+// @route GET /api/products
+const getProducts = async (req, res) => {
+  try {
+    const { category, gender, sort } = req.query;
+
+    const filter = {};
+
+    if (category) filter.category = new RegExp(`^${category}$`, 'i');
+    if (gender) filter.gender = new RegExp(`^${gender}$`, 'i');
+
+    let query = Product.find(filter);
+
+    if (sort === 'price_low') {
+      query = query.sort({ price: 1 });
+    } else if (sort === 'price_high') {
+      query = query.sort({ price: -1 });
+    } else if (sort === 'discount') {
+      query = query.sort({ discount: -1 });
+    } else {
+      query = query.sort({ createdAt: -1 });
+    }
+
+    const products = await query.exec();
+
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// @route GET /api/products/:id
+const getProductById = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: 'Product not found',
+      });
+    }
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// @route POST /api/products
+const createProduct = async (req, res) => {
+  try {
+    const product = await Product.create({
+      title: req.body.title,
+      description: req.body.description,
+      mainImg: req.file ? `/uploads/${req.file.filename}` : (req.body.mainImgUrl || ''),
+      category: req.body.category,
+      gender: req.body.gender,
+      price: Number(req.body.price),
+      discount: Number(req.body.discount) || 0,
+      sizes: req.body.sizes ? JSON.parse(req.body.sizes) : [],
+      carousel: [],
+    });
+
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+// @route PUT /api/products/:id
+const updateProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: 'Product not found',
+      });
+    }
+
+    product.title = req.body.title || product.title;
+    product.description = req.body.description || product.description;
+    product.category = req.body.category || product.category;
+    product.gender = req.body.gender || product.gender;
+    product.price = req.body.price || product.price;
+    product.discount = req.body.discount || product.discount;
+
+    if (req.body.sizes) {
+      product.sizes = JSON.parse(req.body.sizes);
+    }
+
+    if (req.file) {
+      product.mainImg = `/uploads/${req.file.filename}`;
+    }
+
+    const updatedProduct = await product.save();
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// @route DELETE /api/products/:id
+const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: 'Product not found',
+      });
+    }
+
+    res.status(200).json({
+      message: 'Product deleted successfully',
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};
