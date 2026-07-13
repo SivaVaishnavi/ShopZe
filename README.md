@@ -10,6 +10,8 @@ products, users, orders, and the homepage banner.
 - **Database:** MongoDB (Mongoose)
 - **Auth:** JWT + bcrypt password hashing
 
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/09fc8a04-b7f9-4239-ac08-d74f447d22ad" />
+
 ## Folder Structure
 ```
 shopez/
