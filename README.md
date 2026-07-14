@@ -103,7 +103,9 @@ App runs on: **http://localhost:5173**
 
 ## Notes
 - Product images use URLs (paste any image link when adding a product via
-  the admin panel — no file upload is implemented, matching the `mainImg: String`
-  schema field from your project spec).
+  the admin panel).
 - Both servers were verified to build/start cleanly with no MongoDB running
   in this environment; connect a real Mongo instance to see live data.
+  <img width="638" height="846" alt="image" src="https://github.com/user-attachments/assets/228fb178-cdaf-4e3e-9f5e-05be06954de4" />     <img width="1545" height="917" alt="WhatsApp Image 2026-07-14 at 9 54 58 PM" src="https://github.com/user-attachments/assets/4b7f2c2e-29fc-40bd-874a-c2cd59c54544" />
+
+
