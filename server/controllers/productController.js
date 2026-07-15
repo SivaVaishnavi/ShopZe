@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const downloadImageFromUrl = require('../utils/downloadImage');
 
 // @route GET /api/products
 const getProducts = async (req, res) => {
@@ -7,13 +8,8 @@ const getProducts = async (req, res) => {
 
     const filter = {};
 
-<<<<<<< HEAD
     if (category) filter.category = new RegExp(`^${category}$`, 'i');
     if (gender) filter.gender = new RegExp(`^${gender}$`, 'i');
-=======
-    if (category) filter.category = category;
-    if (gender) filter.gender = gender;
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
 
     let query = Product.find(filter);
 
@@ -59,14 +55,22 @@ const getProductById = async (req, res) => {
 // @route POST /api/products
 const createProduct = async (req, res) => {
   try {
+    let mainImg = '';
+
+    if (req.file) {
+      mainImg = `/uploads/${req.file.filename}`;
+    } else if (req.body.mainImgUrl) {
+      mainImg = await downloadImageFromUrl(req.body.mainImgUrl);
+    }
+
+    if (!mainImg) {
+      return res.status(400).json({ message: 'Please provide an image (upload or URL).' });
+    }
+
     const product = await Product.create({
       title: req.body.title,
       description: req.body.description,
-<<<<<<< HEAD
-      mainImg: req.file ? `/uploads/${req.file.filename}` : (req.body.mainImgUrl || ''),
-=======
-      mainImg: req.file ? `/uploads/${req.file.filename}` : '',
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
+      mainImg,
       category: req.body.category,
       gender: req.body.gender,
       price: Number(req.body.price),
@@ -82,10 +86,7 @@ const createProduct = async (req, res) => {
     });
   }
 };
-<<<<<<< HEAD
-=======
 
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
 // @route PUT /api/products/:id
 const updateProduct = async (req, res) => {
   try {
@@ -110,6 +111,8 @@ const updateProduct = async (req, res) => {
 
     if (req.file) {
       product.mainImg = `/uploads/${req.file.filename}`;
+    } else if (req.body.mainImgUrl) {
+      product.mainImg = await downloadImageFromUrl(req.body.mainImgUrl);
     }
 
     const updatedProduct = await product.save();

@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
-
 import Landing from './pages/Landing';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
@@ -13,11 +12,8 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import AdminDashboard from './pages/AdminDashboard';
 import AddProduct from './pages/AddProduct';
-<<<<<<< HEAD
 import EditProducts from './pages/EditProducts';
 import AdminProducts from './pages/AdminProducts';
-=======
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
 import AdminUsers from './pages/AdminUsers';
 import AdminOrders from './pages/AdminOrders';
 
@@ -35,13 +31,11 @@ function App() {
         <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
         <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
-<<<<<<< HEAD
+
         <Route path="/admin/products" element={<ProtectedRoute adminOnly><AdminProducts /></ProtectedRoute>} />
         <Route path="/admin/add-product" element={<ProtectedRoute adminOnly><AddProduct /></ProtectedRoute>} />
         <Route path="/admin/edit-products/:id" element={<ProtectedRoute adminOnly><EditProducts /></ProtectedRoute>} />
-=======
-        <Route path="/admin/add-product" element={<ProtectedRoute adminOnly><AddProduct /></ProtectedRoute>} />
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
+
         <Route path="/admin/users" element={<ProtectedRoute adminOnly><AdminUsers /></ProtectedRoute>} />
         <Route path="/admin/orders" element={<ProtectedRoute adminOnly><AdminOrders /></ProtectedRoute>} />
         <Route path="*" element={<p style={{ padding: '2rem' }}>Page not found.</p>} />

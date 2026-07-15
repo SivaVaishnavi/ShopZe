@@ -34,18 +34,12 @@ const AdminDashboard = () => {
           <p className="stat-value">{stats.totalUsers}</p>
           <Link to="/admin/users">View all</Link>
         </div>
-<<<<<<< HEAD
-       <div className="stat-card">
-          <p className="stat-label">All Products</p>
-          <p className="stat-value">{stats.allProducts}</p>
-          <Link to="/admin/products">Manage</Link>
-=======
         <div className="stat-card">
           <p className="stat-label">All Products</p>
           <p className="stat-value">{stats.allProducts}</p>
-          <Link to="/products">View all</Link>
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
+          <Link to="/admin/products">Manage</Link>
         </div>
+       
         <div className="stat-card">
           <p className="stat-label">All Orders</p>
           <p className="stat-value">{stats.allOrders}</p>

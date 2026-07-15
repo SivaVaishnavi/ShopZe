@@ -2,12 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 
-<<<<<<< HEAD
 const categoryOptions = ['Mobiles', 'Electronics', 'Sports-Equipment', 'Fashion', 'Groceries'];
 const genderOptions = ['Men', 'Women', 'Unisex'];
 
-=======
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
 const AddProduct = () => {
   const navigate = useNavigate();
 
@@ -22,20 +19,12 @@ const AddProduct = () => {
     sizes: '',
   });
 
-<<<<<<< HEAD
   const [imageMode, setImageMode] = useState('upload'); // 'upload' | 'url'
   const [imageUrl, setImageUrl] = useState('');
-=======
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
   const [preview, setPreview] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-<<<<<<< HEAD
-  // Handle text/select input changes
-=======
-  // Handle text input changes
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -43,11 +32,6 @@ const AddProduct = () => {
     });
   };
 
-<<<<<<< HEAD
-  // Handle image file selection
-=======
-  // Handle image selection
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
@@ -61,15 +45,12 @@ const AddProduct = () => {
     }
   };
 
-<<<<<<< HEAD
-  // Handle pasted image URL
   const handleImageUrlChange = (e) => {
     const url = e.target.value;
     setImageUrl(url);
     setPreview(url);
   };
 
-  // Switch between upload / URL mode, clearing whichever isn't used
   const switchImageMode = (mode) => {
     setImageMode(mode);
     setPreview('');
@@ -77,13 +58,9 @@ const AddProduct = () => {
     setImageUrl('');
   };
 
-=======
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
-  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-<<<<<<< HEAD
     setError('');
 
     if (imageMode === 'upload' && !form.mainImg) {
@@ -97,34 +74,23 @@ const AddProduct = () => {
     }
 
     setLoading(true);
-=======
-    setLoading(true);
-    setError('');
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
 
     try {
       const formData = new FormData();
 
       formData.append('title', form.title);
       formData.append('description', form.description);
-<<<<<<< HEAD
-=======
-      formData.append('mainImg', form.mainImg);
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
       formData.append('category', form.category);
       formData.append('gender', form.gender);
       formData.append('price', form.price);
       formData.append('discount', form.discount || 0);
 
-<<<<<<< HEAD
       if (imageMode === 'upload') {
         formData.append('mainImg', form.mainImg);
       } else {
         formData.append('mainImgUrl', imageUrl.trim());
       }
 
-=======
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
       formData.append(
         'sizes',
         JSON.stringify(
@@ -174,7 +140,6 @@ const AddProduct = () => {
           required
         />
 
-<<<<<<< HEAD
         {/* Image mode toggle */}
         <div className="image-mode-toggle">
           <button
@@ -203,22 +168,12 @@ const AddProduct = () => {
             onChange={handleImageUrlChange}
           />
         )}
-=======
-        {/* Image Upload */}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          required
-        />
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
 
         {/* Image Preview */}
         {preview && (
           <img
             src={preview}
             alt="Preview"
-<<<<<<< HEAD
             onError={(e) => (e.target.style.display = 'none')}
             style={{
               width: '180px',
@@ -228,21 +183,10 @@ const AddProduct = () => {
               margin: '10px auto',
               display: 'block',
               border: '1px solid #ddd',
-=======
-            style={{
-              width: "180px",
-              height: "180px",
-              objectFit: "cover",
-              borderRadius: "10px",
-              margin: "10px auto",
-              display: "block",
-              border: "1px solid #ddd"
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
             }}
           />
         )}
 
-<<<<<<< HEAD
         <select name="category" value={form.category} onChange={handleChange} required>
           <option value="">Select Category</option>
           {categoryOptions.map((cat) => (
@@ -260,24 +204,6 @@ const AddProduct = () => {
             </option>
           ))}
         </select>
-=======
-        <input
-          type="text"
-          name="category"
-          placeholder="Category"
-          value={form.category}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          type="text"
-          name="gender"
-          placeholder="Gender (Men/Women/Unisex)"
-          value={form.gender}
-          onChange={handleChange}
-        />
->>>>>>> 8294d87f5105ce8cea917c033786d4b8f796c5d6
 
         <input
           type="number"
