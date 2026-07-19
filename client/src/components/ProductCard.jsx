@@ -53,8 +53,7 @@ const ProductCard = ({ product }) => {
 
           src={
             product.mainImg
-            ?
-            `http://localhost:8000${product.mainImg}`
+             ? `${import.meta.env.VITE_API_URL}${product.mainImg}`
             :
             "https://placehold.co/300"
           }

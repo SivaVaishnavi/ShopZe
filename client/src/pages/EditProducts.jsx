@@ -148,7 +148,7 @@ const EditProducts = () => {
             preview
               ? preview
               : existingImg
-              ? `http://localhost:8000${existingImg}`
+              ? `${import.meta.env.VITE_API_URL}${existingImg}`
               : 'https://placehold.co/180'
           }
           alt="Preview"

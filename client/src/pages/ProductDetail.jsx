@@ -194,7 +194,7 @@ images.map((img,index)=>(
 
 key={index}
 
-src={`http://localhost:8000${img}`}
+src={`${import.meta.env.VITE_API_URL}${img}`}
 
 onClick={()=>setSelectedImage(img)}
 
@@ -222,7 +222,7 @@ e.target.src="https://placehold.co/100"
 
 className="main-product-image"
 
-src={`http://localhost:8000${selectedImage}`}
+src={`${import.meta.env.VITE_API_URL}${selectedImage}`}
 
 alt={product.title}
 
