@@ -4,6 +4,15 @@ ShopEZ is a full-stack e-commerce app: product catalog, cart, checkout,
 user profile with order history, and an admin dashboard for managing
 products, users, orders, and the homepage banner.
 
+# Demo Video
+https://drive.google.com/file/d/1Zei412fzJOqp8AQeFc5Ueo3VecFEqYdm/view?usp=sharing
+
+# Project Tenpletes
+https://drive.google.com/drive/folders/1OPb2h5jPD68-ZnhsnXBwHoZ6h8MN6Vz-?usp=sharing
+
+## Live Url
+https://shopez-rose.vercel.app/
+
 ## Tech Stack
 - **Frontend:** React (Vite), React Router, Axios
 - **Backend:** Node.js, Express.js
@@ -77,35 +86,4 @@ App runs on: **http://localhost:5173**
 - User profile page with order history + cancel order
 - Admin dashboard: stats, banner update, add product, view all users/orders
 - Route-level protection (JWT middleware + Admin-only routes)
-
-## API Overview
-| Method | Route                     | Access        |
-|--------|----------------------------|---------------|
-| POST   | /api/auth/register          | Public        |
-| POST   | /api/auth/login              | Public        |
-| GET    | /api/auth/profile            | Logged in     |
-| GET    | /api/products                 | Public        |
-| GET    | /api/products/:id             | Public        |
-| POST   | /api/products                 | Admin         |
-| PUT    | /api/products/:id              | Admin         |
-| DELETE | /api/products/:id               | Admin         |
-| GET    | /api/cart                       | Logged in     |
-| POST   | /api/cart                        | Logged in     |
-| DELETE | /api/cart/:id                     | Logged in     |
-| POST   | /api/orders                        | Logged in     |
-| GET    | /api/orders/my                      | Logged in     |
-| PUT    | /api/orders/:id/cancel                | Logged in     |
-| GET    | /api/orders                            | Admin         |
-| GET    | /api/admin/dashboard                    | Admin         |
-| GET    | /api/admin/users                         | Admin         |
-| GET    | /api/admin/settings                       | Public        |
-| PUT    | /api/admin/settings                        | Admin         |
-
-## Notes
-- Product images use URLs (paste any image link when adding a product via
-  the admin panel).
-- Both servers were verified to build/start cleanly with no MongoDB running
-  in this environment; connect a real Mongo instance to see live data.
-<img width="638" height="846" alt="image" src="https://github.com/user-attachments/assets/228fb178-cdaf-4e3e-9f5e-05be06954de4" />  <img width="1545" height="917" alt="WhatsApp Image 2026-07-14 at 9 54 58 PM" src="https://github.com/user-attachments/assets/4b7f2c2e-29fc-40bd-874a-c2cd59c54544" />
-
 
