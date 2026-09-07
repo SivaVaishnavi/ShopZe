@@ -1,18 +1,25 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const connectDB = require('./config/db');
+const path = require('path');
+const fs = require('fs');
 
 dotenv.config();
+
+const connectDB = require('./config/db');
 connectDB();
 
 const app = express();
 
+// Ensure uploads directory exists for image storage
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 app.use(cors());
 app.use(express.json());
-const path = require("path");
-
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use('/uploads', express.static(uploadsDir));
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
@@ -20,6 +27,7 @@ app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/cart', require('./routes/cartRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/chat', require('./routes/chatRoutes'));
 
 app.get('/', (req, res) => {
   res.send('SHOPEZ API is running');
@@ -37,6 +45,10 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled Promise Rejection:', err);
 });

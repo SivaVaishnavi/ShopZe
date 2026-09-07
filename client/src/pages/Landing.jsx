@@ -25,7 +25,7 @@ const categories = [
     img: groceries
   },
   {
-    name: 'Sports',
+    name: 'Sports-Equipment',
     img: sports
   }
 ];

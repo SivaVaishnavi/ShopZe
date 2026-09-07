@@ -2,10 +2,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+const JWT_SECRET = process.env.JWT_SECRET || 'shopez_jwt_secret_key_2026';
+
 const generateToken = (user) => {
   return jwt.sign(
     { id: user._id, usertype: user.usertype },
-    process.env.JWT_SECRET,
+    JWT_SECRET,
     { expiresIn: '7d' }
   );
 };
@@ -19,7 +21,10 @@ const register = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const existing = await User.findOne({ email });
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanUsername = username.trim();
+
+    const existing = await User.findOne({ email: cleanEmail });
     if (existing) {
       return res.status(400).json({ message: 'Email already registered' });
     }
@@ -28,8 +33,8 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.create({
-      username,
-      email,
+      username: cleanUsername,
+      email: cleanEmail,
       password: hashedPassword,
       usertype: usertype || 'Customer',
     });
@@ -50,7 +55,13 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Please provide email and password' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+
+    const user = await User.findOne({ email: cleanEmail });
     if (!user) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }

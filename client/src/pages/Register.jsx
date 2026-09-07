@@ -16,10 +16,10 @@ const Register = () => {
     setError('');
     setLoading(true);
     try {
-      await register(form.username, form.email, form.password, form.usertype);
+      await register(form.username.trim(), form.email.trim(), form.password, form.usertype);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      setError(err.response?.data?.message || err.message || 'Registration failed.');
     } finally {
       setLoading(false);
     }

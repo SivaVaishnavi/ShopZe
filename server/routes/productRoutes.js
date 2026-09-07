@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-
 const {
   getProducts,
   getProductById,
+  getRelatedProducts,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -16,6 +16,7 @@ const upload = require('../middleware/upload');
 
 // Public Routes
 router.get('/', getProducts);
+router.get('/:id/related', getRelatedProducts);
 router.get('/:id', getProductById);
 
 // Admin Routes

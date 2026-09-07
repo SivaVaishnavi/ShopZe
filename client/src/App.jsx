@@ -17,6 +17,8 @@ import AdminProducts from './pages/AdminProducts';
 import AdminUsers from './pages/AdminUsers';
 import AdminOrders from './pages/AdminOrders';
 
+import ChatWidget from './components/ChatWidget';
+
 function App() {
   return (
     <AuthProvider>
@@ -40,8 +42,10 @@ function App() {
         <Route path="/admin/orders" element={<ProtectedRoute adminOnly><AdminOrders /></ProtectedRoute>} />
         <Route path="*" element={<p style={{ padding: '2rem' }}>Page not found.</p>} />
       </Routes>
+      <ChatWidget />
     </AuthProvider>
   );
 }
+
 
 export default App;

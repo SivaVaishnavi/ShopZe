@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/axios';
+import { getImageUrl } from '../utils/image';
 
 const EditProducts = () => {
   const { id } = useParams();
@@ -148,7 +149,7 @@ const EditProducts = () => {
             preview
               ? preview
               : existingImg
-              ? `${import.meta.env.VITE_API_URL}${existingImg}`
+              ? getImageUrl(existingImg)
               : 'https://placehold.co/180'
           }
           alt="Preview"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import { getImageUrl } from '../utils/image';
 
 const Profile = () => {
   const { user, logout } = useAuth();
@@ -39,7 +40,7 @@ const Profile = () => {
         {orders.length === 0 && <p>No orders yet.</p>}
         {orders.map((o) => (
           <div className="order-card" key={o._id}>
-            <img src={o.mainImg} alt={o.title} onError={(e) => (e.target.src = 'https://placehold.co/80x80')} />
+            <img src={getImageUrl(o.mainImg)} alt={o.title} onError={(e) => (e.target.src = 'https://placehold.co/80x80')} />
             <div className="order-info">
               <h4>{o.title}</h4>
               <p>{o.description}</p>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
+import { getImageUrl } from '../utils/image';
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -75,7 +76,7 @@ const AdminProducts = () => {
               <tr key={p._id}>
                 <td>
                   <img
-                    src={p.mainImg ?  `${import.meta.env.VITE_API_URL}${product.mainImg}` : 'https://placehold.co/60'}
+                    src={getImageUrl(p.mainImg)}
                     alt={p.title}
                     onError={(e) => (e.target.src = 'https://placehold.co/60?text=No+Image')}
                     className="admin-table-img"

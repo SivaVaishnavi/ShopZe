@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
-
+import RelatedProducts from '../components/RelatedProducts';
+import { getImageUrl } from '../utils/image';
 
 const ProductDetail = () => {
 
@@ -175,6 +176,8 @@ const ProductDetail = () => {
 
 return (
 
+<>
+
 <div className="product-page">
 
 
@@ -194,7 +197,7 @@ images.map((img,index)=>(
 
 key={index}
 
-src={`${import.meta.env.VITE_API_URL}${img}`}
+src={getImageUrl(img)}
 
 onClick={()=>setSelectedImage(img)}
 
@@ -222,7 +225,7 @@ e.target.src="https://placehold.co/100"
 
 className="main-product-image"
 
-src={`${import.meta.env.VITE_API_URL}${selectedImage}`}
+src={getImageUrl(selectedImage)}
 
 alt={product.title}
 
@@ -464,6 +467,10 @@ Buy Now
 
 
 </div>
+
+<RelatedProducts productId={id} />
+
+</>
 
 );
 

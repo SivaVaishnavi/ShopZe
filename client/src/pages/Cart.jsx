@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import { getImageUrl } from '../utils/image';
 
 const Cart = () => {
   const [items, setItems] = useState([]);
@@ -37,7 +38,7 @@ const Cart = () => {
         {items.length === 0 && <p>Your cart is empty.</p>}
         {items.map((item) => (
           <div className="cart-item" key={item._id}>
-            <img src={item.mainImg} alt={item.title} onError={(e) => (e.target.src = 'https://placehold.co/80x80')} />
+            <img src={getImageUrl(item.mainImg)} alt={item.title} onError={(e) => (e.target.src = 'https://placehold.co/80x80')} />
             <div>
               <h4>{item.title}</h4>
               <p>Size: {item.size} &nbsp; Quantity: {item.quantity}</p>

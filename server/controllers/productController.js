@@ -8,7 +8,13 @@ const getProducts = async (req, res) => {
 
     const filter = {};
 
-    if (category) filter.category = new RegExp(`^${category}$`, 'i');
+    if (category) {
+      if (/^sports(-equipment)?$/i.test(category)) {
+        filter.category = new RegExp('^(Sports|Sports-Equipment)$', 'i');
+      } else {
+        filter.category = new RegExp(`^${category.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i');
+      }
+    }
     if (gender) filter.gender = new RegExp(`^${gender}$`, 'i');
 
     let query = Product.find(filter);
@@ -49,6 +55,44 @@ const getProductById = async (req, res) => {
     res.status(500).json({
       message: error.message,
     });
+  }
+};
+
+// @route GET /api/products/:id/related
+const getRelatedProducts = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    // Prefer same category + gender, close in price; fall back to category only
+    let related = await Product.find({
+      _id: { $ne: product._id },
+      category: product.category,
+      gender: product.gender,
+    })
+      .limit(8)
+      .exec();
+
+    if (related.length < 4) {
+      const fallback = await Product.find({
+        _id: { $ne: product._id },
+        category: product.category,
+      })
+        .limit(8)
+        .exec();
+
+      related = fallback;
+    }
+
+    // Sort by closeness in price to the current product
+    related.sort((a, b) => Math.abs(a.price - product.price) - Math.abs(b.price - product.price));
+
+    res.status(200).json(related.slice(0, 4));
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -149,6 +193,7 @@ const deleteProduct = async (req, res) => {
 module.exports = {
   getProducts,
   getProductById,
+  getRelatedProducts,
   createProduct,
   updateProduct,
   deleteProduct,

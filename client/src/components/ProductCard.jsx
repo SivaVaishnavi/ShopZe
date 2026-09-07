@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { getImageUrl } from '../utils/image';
 
 
 const ProductCard = ({ product }) => {
@@ -51,12 +52,7 @@ const ProductCard = ({ product }) => {
 
         <img
 
-          src={
-            product.mainImg
-             ? `${import.meta.env.VITE_API_URL}${product.mainImg}`
-            :
-            "https://placehold.co/300"
-          }
+          src={getImageUrl(product.mainImg)}
 
           alt={product.title}
 

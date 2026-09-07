@@ -43,6 +43,18 @@ const genderOptions = [
 ];
 
 
+const isCategoryMatch = (optionName, currentCategory) => {
+  if (!currentCategory) return false;
+  if (optionName.toLowerCase() === currentCategory.toLowerCase()) return true;
+  if (
+    (optionName === 'Sports-Equipment' || optionName === 'Sports') &&
+    (currentCategory.toLowerCase() === 'sports' || currentCategory.toLowerCase() === 'sports-equipment')
+  ) {
+    return true;
+  }
+  return false;
+};
+
 const Products = () => {
 
   const [searchParams,setSearchParams] = useSearchParams();
@@ -127,7 +139,7 @@ const Products = () => {
 
 
       }
-      catch(err){
+      catch{
 
         setError(
           "Unable to load products"
@@ -279,7 +291,7 @@ categoryOptions.map(cat=>(
 <label 
 key={cat.name}
 className={
-category===cat.name
+isCategoryMatch(cat.name, category)
 ?
 "active-filter"
 :
@@ -293,13 +305,13 @@ category===cat.name
 type="checkbox"
 
 checked={
-category===cat.name
+isCategoryMatch(cat.name, category)
 }
 
 onChange={()=>
 updateParam(
 "category",
-category===cat.name
+isCategoryMatch(cat.name, category)
 ?
 ""
 :
