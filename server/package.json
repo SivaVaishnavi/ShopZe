@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "seed": "node seed.js"
+    "seed": "node seed.js",
+    "export-fallback": "node exportFallback.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
