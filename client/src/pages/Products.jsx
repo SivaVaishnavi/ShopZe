@@ -44,15 +44,25 @@ const genderOptions = [
 ];
 
 
-const isCategoryMatch = (optionName, currentCategory) => {
-  if (!currentCategory) return false;
-  if (optionName.toLowerCase() === currentCategory.toLowerCase()) return true;
-  if (
-    (optionName === 'Sports-Equipment' || optionName === 'Sports') &&
-    (currentCategory.toLowerCase() === 'sports' || currentCategory.toLowerCase() === 'sports-equipment')
-  ) {
-    return true;
-  }
+const isCategoryMatch = (val1, val2) => {
+  if (!val1 || !val2) return false;
+  const normalize = (str) =>
+    String(str)
+      .trim()
+      .toLowerCase()
+      .replace(/[\s_]+/g, '-')
+      .replace(/s$/, '');
+
+  const n1 = normalize(val1);
+  const n2 = normalize(val2);
+
+  if (n1 === n2) return true;
+  if (n1.startsWith('sport') && n2.startsWith('sport')) return true;
+  if (n1.startsWith('mobile') && n2.startsWith('mobile')) return true;
+  if (n1.startsWith('grocer') && n2.startsWith('grocer')) return true;
+  if (n1.startsWith('fashion') && n2.startsWith('fashion')) return true;
+  if (n1.startsWith('electronic') && n2.startsWith('electronic')) return true;
+
   return false;
 };
 

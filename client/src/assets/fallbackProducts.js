@@ -15,12 +15,12 @@ export const fallbackProducts = [
   },
   {
     "_id": "6aa01ff0aa6addb14195207f",
-    "title": "Wireless Stereo Headphones",
-    "description": "Immersive sound quality with active noise cancellation and soft ear cushions.",
+    "title": "Vivo Y31 5G Mobile",
+    "description": "New version vivo latest mobile is iin live.",
     "mainImg": "/uploads/1784043816777.webp",
-    "category": "Electronics",
+    "category": "Mobiles",
     "gender": "Unisex",
-    "price": 4999,
+    "price": 19999,
     "discount": 20,
     "sizes": [
       "Standard"
@@ -155,8 +155,8 @@ export const fallbackProducts = [
   },
   {
     "_id": "6aa01ff0aa6addb14195208b",
-    "title": "Adjustable headphones",
-    "description": "Secure soundable headphone for easy carrier.",
+    "title": "Wireless Stereo Headphones",
+    "description": "Immersive sound quality with active noise cancellation and soft ear cushions.",
     "mainImg": "/uploads/1784046082985.jpeg",
     "category": "Electronics",
     "gender": "Unisex",
@@ -279,5 +279,31 @@ export const fallbackProducts = [
     "sizes": [
       "Free Size"
     ]
+  },
+  {
+    "_id": "6aa02de1d4e6cab28b77f605",
+    "title": "Silk dress",
+    "description": "Vintage Pure SilkMaxi Dress",
+    "mainImg": "/uploads/1788882401738.jpeg",
+    "category": "Fashion",
+    "gender": "Women",
+    "price": 999,
+    "discount": 5,
+    "sizes": [
+      "s",
+      "m",
+      "l"
+    ]
+  },
+  {
+    "_id": "6aa02e64d4e6cab28b77f613",
+    "title": "Hair oil",
+    "description": "prevents hairfall and dandruf",
+    "mainImg": "/uploads/1788882532569.jpeg",
+    "category": "Groceries",
+    "gender": "Women",
+    "price": 999,
+    "discount": 5,
+    "sizes": []
   }
 ];
