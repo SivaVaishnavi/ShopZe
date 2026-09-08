@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import api from '../api/axios';
 import ProductCard from '../components/ProductCard';
+import { fallbackProducts } from '../assets/fallbackProducts';
 
 const categoryOptions = [
   {
@@ -112,44 +113,47 @@ const Products = () => {
 
 
 
-        const {data}=await api.get(
-          "/products",
-          {
-            params
+        let dataset = [];
+
+        try {
+          const { data } = await api.get("/products", { params });
+          if (Array.isArray(data) && (data.length >= 10 || category || gender || search)) {
+            dataset = data;
+          } else {
+            dataset = fallbackProducts;
           }
-        );
+        } catch {
+          dataset = fallbackProducts;
+        }
 
+        // Apply client-side filtering on dataset
+        let result = dataset;
 
+        if (category) {
+          result = result.filter(p => isCategoryMatch(p.category, category));
+        }
 
-        const filtered =
-        search
-        ?
-        data.filter(
-          product =>
-          product.title
-          .toLowerCase()
-          .includes(search.toLowerCase())
-        )
-        :
-        data;
+        if (gender) {
+          result = result.filter(p => p.gender?.toLowerCase() === gender.toLowerCase());
+        }
 
+        if (search) {
+          result = result.filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
+        }
 
+        if (sort === 'price_low') {
+          result = [...result].sort((a, b) => a.price - b.price);
+        } else if (sort === 'price_high') {
+          result = [...result].sort((a, b) => b.price - a.price);
+        } else if (sort === 'discount') {
+          result = [...result].sort((a, b) => (b.discount || 0) - (a.discount || 0));
+        }
 
-        setProducts(filtered);
-
-
-      }
-      catch{
-
-        setError(
-          "Unable to load products"
-        );
-
-      }
-      finally{
-
+        setProducts(result);
+      } catch {
+        setError("");
+      } finally {
         setLoading(false);
-
       }
 
 
