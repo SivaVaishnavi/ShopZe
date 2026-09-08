@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/axios';
 import { getImageUrl } from '../utils/image';
+import { fallbackProducts } from '../assets/fallbackProducts';
 
 const EditProducts = () => {
   const { id } = useParams();
@@ -42,7 +43,22 @@ const EditProducts = () => {
 
         setExistingImg(data.mainImg || '');
       } catch (err) {
-        setError(err.response?.data?.message || 'Could not load product.');
+        const found = fallbackProducts.find((p) => String(p._id) === String(id));
+        if (found) {
+          setForm({
+            title: found.title || '',
+            description: found.description || '',
+            mainImg: null,
+            category: found.category || '',
+            gender: found.gender || '',
+            price: found.price ?? '',
+            discount: found.discount ?? '',
+            sizes: Array.isArray(found.sizes) ? found.sizes.join(', ') : '',
+          });
+          setExistingImg(found.mainImg || '');
+        } else {
+          setError(err.response?.data?.message || 'Could not load product.');
+        }
       } finally {
         setFetching(false);
       }

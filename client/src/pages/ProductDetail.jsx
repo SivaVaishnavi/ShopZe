@@ -4,6 +4,7 @@ import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import RelatedProducts from '../components/RelatedProducts';
 import { getImageUrl } from '../utils/image';
+import { fallbackProducts } from '../assets/fallbackProducts';
 
 const ProductDetail = () => {
 
@@ -33,35 +34,24 @@ const ProductDetail = () => {
 
 
     api.get(`/products/${id}`)
-
-    .then((res)=>{
-
-
-      setProduct(res.data);
-
-
-      setSelectedImage(
-        res.data.mainImg
-      );
-
-
-      if(res.data.sizes?.length){
-
-        setSize(res.data.sizes[0]);
-
-      }
-
-
-    })
-
-    .catch(()=>{
-
-      setError("Could not load product");
-
-    });
-
-
-  },[id]);
+      .then((res) => {
+        setProduct(res.data);
+        setSelectedImage(res.data.mainImg);
+        if (res.data.sizes?.length) {
+          setSize(res.data.sizes[0]);
+        }
+      })
+      .catch(() => {
+        const found = fallbackProducts.find((p) => String(p._id) === String(id));
+        if (found) {
+          setProduct(found);
+          setSelectedImage(found.mainImg);
+          if (found.sizes?.length) setSize(found.sizes[0]);
+        } else {
+          setError("Could not load product");
+        }
+      });
+  }, [id]);
 
 
 

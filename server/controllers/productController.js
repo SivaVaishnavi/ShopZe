@@ -142,12 +142,12 @@ const updateProduct = async (req, res) => {
       });
     }
 
-    product.title = req.body.title || product.title;
-    product.description = req.body.description || product.description;
-    product.category = req.body.category || product.category;
-    product.gender = req.body.gender || product.gender;
-    product.price = req.body.price || product.price;
-    product.discount = req.body.discount || product.discount;
+    if (req.body.title !== undefined) product.title = req.body.title;
+    if (req.body.description !== undefined) product.description = req.body.description;
+    if (req.body.category !== undefined) product.category = req.body.category;
+    if (req.body.gender !== undefined) product.gender = req.body.gender;
+    if (req.body.price !== undefined) product.price = Number(req.body.price);
+    if (req.body.discount !== undefined) product.discount = Number(req.body.discount);
 
     if (req.body.sizes) {
       product.sizes = JSON.parse(req.body.sizes);
