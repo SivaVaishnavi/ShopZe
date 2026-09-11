@@ -19,7 +19,8 @@ button { cursor: pointer; font-family: inherit; }
 
 /* Landing */
 .hero-banner {
-  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  background-color: #5b3ecb;
+  background-image: linear-gradient(90deg, #ff8a00, #e52e71);
   color: white; padding: 3rem 2rem; text-align: center;
 }
 .hero-banner h1 { font-size: 2.5rem; margin-bottom: 1rem; }

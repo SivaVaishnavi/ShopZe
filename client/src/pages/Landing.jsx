@@ -63,11 +63,10 @@ const Landing = () => {
         style={
           banner
             ? {
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${getImageUrl(banner)})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                minHeight: '320px',
+                background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("${getImageUrl(banner)}") center / cover no-repeat`,
+                minHeight: '340px',
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
               }
