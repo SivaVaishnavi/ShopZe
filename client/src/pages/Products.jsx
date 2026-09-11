@@ -44,111 +44,75 @@ const genderOptions = [
 ];
 
 
-const isCategoryMatch = (val1, val2) => {
-  if (!val1 || !val2) return false;
-  const normalize = (str) =>
-    String(str)
-      .trim()
-      .toLowerCase()
-      .replace(/[\s_]+/g, '-')
-      .replace(/s$/, '');
-
-  const n1 = normalize(val1);
-  const n2 = normalize(val2);
-
-  if (n1 === n2) return true;
-  if (n1.startsWith('sport') && n2.startsWith('sport')) return true;
-  if (n1.startsWith('mobile') && n2.startsWith('mobile')) return true;
-  if (n1.startsWith('grocer') && n2.startsWith('grocer')) return true;
-  if (n1.startsWith('fashion') && n2.startsWith('fashion')) return true;
-  if (n1.startsWith('electronic') && n2.startsWith('electronic')) return true;
-
+const isCategoryMatch = (optionName, currentCategory) => {
+  if (!optionName || !currentCategory) return false;
+  const opt = String(optionName).trim().toLowerCase();
+  const cur = String(currentCategory).trim().toLowerCase();
+  if (opt === cur) return true;
+  if (
+    (opt === 'sports' || opt === 'sports-equipment') &&
+    (cur === 'sports' || cur === 'sports-equipment')
+  ) {
+    return true;
+  }
   return false;
 };
 
 const Products = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const [searchParams,setSearchParams] = useSearchParams();
+  const sort = searchParams.get('sort') || 'popular';
+  const category = searchParams.get('category') || '';
+  const gender = searchParams.get('gender') || '';
+  const search = searchParams.get('search') || '';
 
-  const [products,setProducts] = useState([]);
-
-  const [loading,setLoading] = useState(true);
-
-  const [error,setError] = useState("");
-
-
-
-  const sort =
-  searchParams.get("sort") || "popular";
-
-
-  const category =
-  searchParams.get("category") || "";
-
-
-  const gender =
-  searchParams.get("gender") || "";
-
-
-  const search =
-  searchParams.get("search") || "";
-
-
-
-  useEffect(()=>{
-
-
-    const fetchProducts = async()=>{
-
-
-      try{
-
-
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
         setLoading(true);
-
-
-        const params={};
-
-
-        if(category)
-        params.category=category;
-
-
-        if(gender)
-        params.gender=gender;
-
-
-        if(sort !== "popular")
-        params.sort=sort;
-
-
 
         let dataset = [];
 
-        try {
-          const { data } = await api.get("/products", { params });
-          if (Array.isArray(data) && (data.length >= 10 || category || gender || search)) {
-            dataset = data;
-          } else {
+        if (import.meta.env.PROD && !import.meta.env.VITE_API_URL) {
+          dataset = fallbackProducts;
+        } else {
+          try {
+            const params = {};
+            if (category) params.category = category;
+            if (gender) params.gender = gender;
+            if (sort !== 'popular') params.sort = sort;
+
+            const { data } = await api.get('/products', { params });
+            if (Array.isArray(data) && data.length > 0) {
+              dataset = data;
+            } else {
+              dataset = fallbackProducts;
+            }
+          } catch {
             dataset = fallbackProducts;
           }
-        } catch {
-          dataset = fallbackProducts;
         }
 
         // Apply client-side filtering on dataset
         let result = dataset;
 
         if (category) {
-          result = result.filter(p => isCategoryMatch(p.category, category));
+          result = result.filter((p) => isCategoryMatch(p.category, category));
         }
 
         if (gender) {
-          result = result.filter(p => p.gender?.toLowerCase() === gender.toLowerCase());
+          result = result.filter(
+            (p) => p.gender && String(p.gender).toLowerCase() === gender.toLowerCase()
+          );
         }
 
         if (search) {
-          result = result.filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
+          result = result.filter(
+            (p) => p.title && String(p.title).toLowerCase().includes(search.toLowerCase())
+          );
         }
 
         if (sort === 'price_low') {
@@ -161,24 +125,14 @@ const Products = () => {
 
         setProducts(result);
       } catch {
-        setError("");
+        setError('');
       } finally {
         setLoading(false);
       }
-
-
     };
 
-
     fetchProducts();
-
-
-  },[
-    category,
-    gender,
-    sort,
-    search
-  ]);
+  }, [category, gender, sort, search]);
 
 
 
