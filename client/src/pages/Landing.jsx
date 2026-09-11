@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
 import { getImageUrl } from '../utils/image';
+import { fallbackAdminSettings } from '../assets/fallbackAdminSettings';
 
 import fashion from '../assets/categories/fashion.jpg';
 import electronics from '../assets/categories/electronics.jpg';
@@ -33,17 +34,25 @@ const categories = [
 ];
 
 const Landing = () => {
-  const [banner, setBanner] = useState('');
+  const [banner, setBanner] = useState(fallbackAdminSettings?.banner || '');
 
   useEffect(() => {
-    api
-      .get('/admin/settings')
-      .then((res) => {
-        if (res.data && res.data.banner) {
-          setBanner(res.data.banner);
-        }
-      })
-      .catch(() => {});
+    if (import.meta.env.PROD && !import.meta.env.VITE_API_URL) {
+      setBanner(fallbackAdminSettings?.banner || '');
+    } else {
+      api
+        .get('/admin/settings')
+        .then((res) => {
+          if (res.data && res.data.banner) {
+            setBanner(res.data.banner);
+          } else {
+            setBanner(fallbackAdminSettings?.banner || '');
+          }
+        })
+        .catch(() => {
+          setBanner(fallbackAdminSettings?.banner || '');
+        });
+    }
   }, []);
 
   return (
